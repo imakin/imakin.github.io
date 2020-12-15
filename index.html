@@ -1,9 +1,338 @@
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en_US">
 <head>
-  <title>Makin's library</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
+    <meta name="HandheldFriendly" content="true"/>
+
+    <link rel="canonical" href="https://browser.surge.sh/" />
+
+    <meta name="twitter:card" content="web browser resolution and display pixel ratio test"/>
+    <meta name="twitter:site" value="@makonil"/>
+
+    <meta property="og:url" content="https://browser.surge.sh/" />
+    <meta property="og:site_name" content="Browser Test" />
+    <meta property="og:title" content="Browser Test" />
+    <meta property="og:description" content="web browser resolution and display pixel ratio test"/>
+
+
+    <title>Makin</title>
+    <meta name="description" content="web browser resolution and display pixel ratio test"/>
+
+    <link rel="stylesheet" href="htmlview.css" />
+    <style>
+
+    </style>
+
 </head>
-<FRAMESET>
-    <FRAME src="http://imakin.bl.ee/" name="imakin">
-</FRAMESET>
+    <body>
+
+
+    <div class="div-center pad-top-40">
+        <div id="user-agent" class="ib"></div>
+    </div>
+
+    <div class="div-center pad-top-40">
+        <div id="resolution" class="ib"></div>
+    </div>
+    <div class="div-center pad-top-40">
+        <div class="ib">Device Pixel Ratio: <span id="dpr"></span> (retina display DPR>1)</div>
+    </div>
+    <div class="div-center pad-top-40">
+        <div class="ib">screen.orientation: <span id="screen-orientation"></span></div>
+    </div>
+
+    <div class="div-center pad-top-40">
+      <button class="bt-orange" onclick="retinaOpen();">retina image test</button>
+    </div>
+
+    <div class="div-center pad-top-40 hidden" id="retina">
+      <div class="ib">
+        <div class="div-cell">
+          <img data-src="dprtest.1x.jpg" id="img-normal"/>
+        </div>
+        <div class="div-cell">
+          <img data-src="dprtest.2x.jpg" id="img-retina"/>
+        </div>
+      </div><br/>
+      <canvas id="sceneryimage"></canvas>
+      <div class="div-center">
+        <div class="div-center">
+            drag bellow to increase bottom image resolution <span id="img-chooser-info"></span>
+        </div>
+        <div class="div-center">
+          <input type="range" id="img-choser" min="1" max="4" step="1" value="1"/>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="browserunique"></div>
+    <div class="relative" id="performancetest-anchor"></div>
+    <div class="div-center pad-top-40">
+        <button class="bt-orange" onclick="performance_test_measure();">
+            performance test, measure hardware speed
+        </button>
+        <div id="pt-measure-result"></div>
+    </div>
+    
+    <div class="div-center pad-top-40" id="pt-buttons">
+        <button class="bt-orange" onclick="performance_test_fade_add();">
+            <span class="long">performance test, click to add 100 more elements</span>
+            <span class="short">add</span>
+        </button>
+        <button class="bt-orange" onclick="performance_test_fade_anim();">
+            <span class="long">animate background color change all elements</span>
+            <span class="short">animate</span>
+        </button>
+    </div>
+    <div id="performancetest">
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+        <div class="pt-fade"></div>
+    </div>
+    
+    
+    <div id="cputest-control">
+		<button class="bt-orange" onclick="cputest_addcpuload()">
+			add CPU load
+		</button>
+		<button class="bt-orange" onclick="cputest_stopcpuload()">
+			stop CPU load
+		</button>
+    </div>
+	<div id="cputest-list">
+	</div>
+
+    <script>
+        NodeList.prototype.forEach = Array.prototype.forEach;
+
+
+        function display_browser_info() {
+            var x = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+                y = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
+
+            document.getElementById("resolution").innerHTML = x+" x "+y+" <br/>";//+e.clientWidth+" <br/>"+g.clientWIdth+" <br/>"+w.innerWidth;
+            document.getElementById("dpr").innerHTML = window.devicePixelRatio;
+            document.getElementById("screen-orientation").innerHTML = screen.orientation.type + " " + screen.orientation.angle;
+            document.getElementById("user-agent").innerHTML = navigator.userAgent;
+        }
+
+
+        function addEventHandler(elem, eventType, handler) {
+            if (elem.addEventListener)
+                    elem.addEventListener (eventType, handler, false);
+            else if (elem.attachEvent)
+                    elem.attachEvent ('on' + eventType, handler);
+        }
+        
+        
+        var randcolor = function(maxsize) {
+            if (maxsize==undefined) {
+                maxsize = 255;
+            }
+            return Math.round(Math.random()*maxsize);
+        }
+        
+
+        function ready(fn) {
+          if (document.readyState != 'loading'){
+            fn();
+          } else {
+            document.addEventListener('DOMContentLoaded', fn);
+          }
+        }
+        
+
+        function retinaOpen() {
+            var nodeRetina = document.getElementById("retina");
+            nodeRetina.style.display='block';
+
+            var nodeImgNormal = document.getElementById("img-normal");
+            nodeImgNormal.setAttribute("src", nodeImgNormal.getAttribute("data-src"));
+
+            var nodeImgRetina = document.getElementById("img-retina");
+            nodeImgRetina.setAttribute("src", nodeImgRetina.getAttribute("data-src"));
+
+            document.getElementById("img-choser").value = 1;
+        }
+
+
+        function unique() {//fingerprinting is not working dont worry
+            var sceneryimage = document.getElementById('sceneryimage');
+            var ctx = sceneryimage.getContext('2d');
+            ctx.clearRect(0, 0, sceneryimage.width, sceneryimage.height);
+            ctx.beginPath();
+            var txt = 'on retina display, bottom image should display clearer';
+            ctx.textBaseline = "top";
+            ctx.font = "16px 'Arial'";
+            ctx.textBaseline = "alphabetic";
+            ctx.rotate(.05);
+            ctx.fillStyle = "#f60";
+            ctx.fillRect(125,1,62,20);
+            ctx.fillStyle = "#069";
+            ctx.fillText(txt, 2, 15);
+            ctx.fillStyle = "rgba(102, 200, 0, 0.7)";
+            ctx.fillText(txt, 4, 17);
+            ctx.shadowBlur=10;
+            ctx.shadowColor="blue";
+            ctx.fillRect(-20,10,234,5);
+            var strng=sceneryimage.toDataURL();
+
+            var hash=0;
+            if (strng.length==0) return;
+            for (i = 0; i < strng.length; i++) {
+                char = strng.charCodeAt(i);
+                hash = ((hash<<5)-hash)+char;
+                hash = hash & hash;
+            }
+            document.querySelector('#browserunique').innerHTML = hash;
+            return hash;
+        }
+
+
+		//performace test
+		
+        function performance_test_fade_anim() {
+            document.querySelectorAll('.pt-fade').forEach(function(item){
+                item.style.backgroundColor = 'rgba('+randcolor()+','+randcolor()+','+randcolor()+','+Math.random()+')';
+            });
+        }
+        
+        function performance_test_fade_add() {
+            var c = document.querySelector('#performancetest');
+            for(var i=0;i<100;i++) {
+                var el = document.createElement('div');
+                el.classList.add('pt-fade');
+                c.appendChild(el);
+            }
+            performance_test_fade_anim();
+            if (document.body.classList.contains(body_class_on_area)) {
+                window.scrollTo(0,document.body.scrollHeight);
+            }
+        }
+        
+        function performance_test_measure() {
+            var start_time = new Date();
+            var c = document.createElement('div');
+            document.body.appendChild(c);
+            for (var i=0;i<5000;i++) {
+                var el = document.createElement('div');
+                el.onclick=function(){
+                    console.log('test elem no: '+i);
+                };
+                c.appendChild(el);
+                el.click();
+            }
+            document.body.removeChild(c);
+            var end_time = new Date();
+            document.querySelector('#pt-measure-result').innerHTML = "score (lower better): "+ (end_time - start_time) + "ms";
+        }
+        
+        
+        
+        
+        window.onresize = function(event){
+            display_browser_info();
+            performance_test_anchor_pos = document.querySelector('#performancetest-anchor').offsetTop;
+        };
+        
+        var performance_test_anchor_pos = document.querySelector('#performancetest-anchor').offsetTop;
+        var body_class_on_area = 'performance-test-area';
+        function on_window_scroll(ev) {
+            global_last_event = ev;
+            var pos = window.pageYOffset || document.documentElement.scrollTop;
+            console.log(pos);
+            if (pos>performance_test_anchor_pos) {
+                document.body.classList.add(body_class_on_area);
+                window.removeEventListener('scroll', on_window_scroll);
+            }
+        }
+        window.addEventListener('scroll',on_window_scroll);
+
+
+
+
+		//cpu test
+		var cputest_loopers = []
+		function tool_modconstrain(value,maximum) {
+			return value%maximum;
+		}
+		function cputest_addcpuload() {
+			var bt = document.createElement('button');
+			bt.classList.add('bt-orange');
+			bt.classList.add('cputest-process-vis');
+			bt.innerHTML = "0";
+			document.getElementById('cputest-list').appendChild(bt);
+			cputest_loopers.push(
+				setInterval(function(){
+						const newval = parseInt(bt.innerHTML)+1
+						bt.innerHTML = ""+newval;
+						//querySelectorAll("*") is quite heavy task
+						Array.prototype.forEach.call(
+							document.querySelectorAll('*'),
+							function(el,i){
+								if (
+									el.classList.contains('cputest-process-vis') &&
+									el.innerHTML==newval/2-1
+								) {
+									const color = newval%256;
+									el.style.backgroundColor = "rgb("+newval+",100,0)";
+									bt.style.backgroundColor = "rgb("+newval+",50,0)";
+									//~ clearInterval(cputest_loopers.pop());
+								}
+							}
+						)
+					},
+					100
+				)
+			);
+		}
+		function cputest_stopcpuload(){
+			for (let thread of cputest_loopers) {
+				clearInterval(thread);
+			}
+			Array.prototype.forEach.call(
+				document.querySelectorAll(".cputest-process-vis"),
+				function(el,i){
+					el.remove();
+				}
+			);
+		}
+
+
+
+
+        ready(function(){
+            window.setTimeout(display_browser_info, 1)
+            unique();
+
+            var choser = document.getElementById("img-choser");
+            addEventHandler(choser, 'change', function() {
+                newimgsrc = "dprtest."+document.getElementById("img-choser").value+"x.jpg";
+                document.getElementById("img-retina").src = newimgsrc;
+                document.getElementById("img-chooser-info").innerHTML = "currently ("+newimgsrc+")";
+                console.log("changed to "+newimgsrc);
+            })
+
+        })
+
+
+
+
+
+
+
+
+    </script>
+    </body>
 </html>

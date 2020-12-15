@@ -1,0 +1,110 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.div-center {
+    text-align:center;
+    display: block;
+}
+.pad-top-40 {
+  padding-top: 40px;
+}
+.div-right {
+    text-align:right;
+    display: block;
+    padding-top:40px;
+}
+#resolution {
+    font-family: Sans;
+    font-size:40px;
+    
+}
+.relative {
+  display: relative;
+}
+.ib {
+  display:inline-block;
+}
+.div-cell {
+  display: table-cell;
+}
+.hidden {
+  display: none;
+}
+
+.bt-orange {
+  padding: 20px;
+  background-color: #ff7741;
+  text-transform: uppercase;
+  border: solid 1px transparent;
+  transition: 0.5s all;
+  color: white;
+  letter-spacing: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #ffddaa;
+    color: brown;
+    border-color: brown;
+  }
+}
+#retina {
+  > .div-center {
+    font-size: 10px;
+    color: #222222;
+  }
+  .div-cell {
+    display: inline-block;
+    width: 300px;
+    height: auto;
+    img {
+      object-fit: cover;
+      max-width: 360px;
+      max-height: 360px;
+      width: 300px;
+      height: auto;
+    }
+  }
+  #image-choser{
+    width: 200px;
+  }
+}
+#sceneryimage {
+  display: none;
+}
+#browserunique {
+  color: transparent;
+  height: 10vh;
+}
+/* not using css animation, but javascript to change transitioned value */
+#performancetest {
+  font-size: 0;
+  div.pt-fade {
+    transition: all 0.5s;
+    display: inline-block;
+    width: 10%;
+    height: 10vw;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255,255,255,1);
+  }
+}
+#pt-buttons {
+  transition: bottom 1s;
+  bottom: 100vh;
+  left: 0;
+  .short {
+    display: none;
+  }
+  @at-root .performance-test-area #pt-buttons {
+    position: fixed;
+    bottom: 0vh;
+    .long {
+      display: none;
+    }
+    .short {
+      display: inline;
+    }
+  }
+}
