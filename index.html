@@ -252,7 +252,7 @@
         function performance_test_measure_argon2() {
             //~ var p = parseInt(document.querySelector('#input-measure-result-argon2-paralelsm').value);
             var start_time = new Date();
-            argon2.hash({pass:"thepasswordtotest", salt:"thesalttotest", time:200,mem:2048,hashLen:16}).then(function(hasil){
+            argon2.hash({pass:"thepasswordtotest", salt:"thesalttotest", time:100,mem:2048,hashLen:16}).then(function(hasil){
                 document.querySelector("#pt-measure-result-argon2").innerHTML = ((new Date())-start_time)+"ms";
             });
         }
