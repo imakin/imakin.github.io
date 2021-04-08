@@ -12,19 +12,21 @@
     <meta name="twitter:card" content="web browser resolution and display pixel ratio test"/>
     <meta name="twitter:site" value="@makonil"/>
 
-    <meta property="og:url" content="https://browser.surge.sh/" />
-    <meta property="og:site_name" content="Browser Test" />
-    <meta property="og:title" content="Browser Test" />
-    <meta property="og:description" content="web browser resolution and display pixel ratio test"/>
+    <meta property="og:url" content="https://imakin.github.io/" />
+    <meta property="og:site_name" content="imakin" />
+    <meta property="og:title" content="Monitor/display pixel ratio information" />
+    <meta property="og:description" content="Monitor/display pixel ratio information, web browser resolution and display pixel ratio test"/>
 
 
-    <title>Makin</title>
-    <meta name="description" content="web browser resolution and display pixel ratio test"/>
+    <title>Monitor/display pixel ratio information | Makin</title>
+    <meta name="description" content="Monitor/display pixel ratio information, web browser resolution and display pixel ratio test"/>
 
     <link rel="stylesheet" href="htmlview.css" />
     <style>
 
     </style>
+    
+    <script src="argon2/argon2-loader.js"></script>
 
 </head>
     <body>
@@ -71,9 +73,18 @@
 
     <div id="browserunique"></div>
     <div class="relative" id="performancetest-anchor"></div>
+    
+    <div class="div-center pad-top-40">
+        <button class="bt-orange" onclick="performance_test_measure_argon2();">
+            performance test, measure CPU speed, Argon2 (1 core)
+        </button><!--
+        Cores/Paralel: <input class="bt-orange" id="input-measure-result-argon2-paralelsm" value=4 type="number" />-->
+        <div id="pt-measure-result-argon2"></div>
+    </div>
+    
     <div class="div-center pad-top-40">
         <button class="bt-orange" onclick="performance_test_measure();">
-            performance test, measure hardware speed
+            performance test, measure hardware speed manipulating DOM
         </button>
         <div id="pt-measure-result"></div>
     </div>
@@ -238,6 +249,14 @@
             document.querySelector('#pt-measure-result').innerHTML = "score (lower better): "+ (end_time - start_time) + "ms";
         }
         
+        function performance_test_measure_argon2() {
+            //~ var p = parseInt(document.querySelector('#input-measure-result-argon2-paralelsm').value);
+            var start_time = new Date();
+            argon2.hash({pass:"thepasswordtotest", salt:"thesalttotest", time:200,mem:2048,hashLen:16}).then(function(hasil){
+                document.querySelector("#pt-measure-result-argon2").innerHTML = ((new Date())-start_time)+"ms";
+            });
+        }
+        
         
         
         
@@ -251,7 +270,7 @@
         function on_window_scroll(ev) {
             global_last_event = ev;
             var pos = window.pageYOffset || document.documentElement.scrollTop;
-            console.log(pos);
+            //~ console.log(pos);
             if (pos>performance_test_anchor_pos) {
                 document.body.classList.add(body_class_on_area);
                 window.removeEventListener('scroll', on_window_scroll);
