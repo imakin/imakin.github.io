@@ -24,27 +24,23 @@
     
     <form action="" method="POST" id="mainform" onsubmit="anote_save(el('#password').value);return false;">
         <input type="hidden" name="csrfmiddlewaretoken" value="hpCsJ7Whh9GxouGV6R5LsdDCixrRPT3f47vypF5X1qqdxHkRZibZSsaayPPju6cS">
-        <div class="flex-h" id="button-container">
-            <input type="submit" id="save" value="SAVE"/>
-            <button type="button" id="reload">RELOAD</button>
+        <div class="flex-h" id="button-container" >
+            <input type="submit" id="save" value="SAVE" hidden/>
+            <button type="button" id="reload" hidden>RELOAD</button>
             <div id="log"></div>
-        </div>
-        <div class="flex-h" id="button-container2">
             <button type="button" id="savefile" >LOCAL SAVE</button>
-            <button type="button" id="openfilebt" onclick="document.querySelector('#openfile').click();">LOCAL LOAD</button>
+            <button type="button" id="openfilebt" hidden onclick="document.querySelector('#openfile').click();">LOCAL LOAD</button>
             <input type="file" id="openfile" hidden/>
-        </div>
-        <div class="flex-h" id="button-container3">
             <input type="password" id="serverdomain" placeholder="serverdomain"/>
             <button type="button" id="loadnumpang">numpang load</button>
+            <form action="#" method="POST" id="passwordform" onsubmit="anote_load(el('#password').value);return false;">
+                <input type="password" name="password" id="password" placeholder="password"/>
+            </form>
         </div>
         <div class="flex-h">
             <textarea name="anote_content" id="anote_content"></textarea>
             <div id="scroller"></div>
         </div>
-    </form>
-    <form action="#" method="POST" id="passwordform" onsubmit="anote_load(el('#password').value);return false;">
-        <input type="password" name="password" id="password" placeholder="password"/>
     </form>
     <script>
         const FXgrArsKcPtRgZ="anote";function el(selector){return document.querySelector(selector)}function els(selector){return document.querySelectorAll(selector)}const XTBsej=el("#log"),tx=el("#anote_content");function glgtHbuekNaAje(){tx.style.height="auto",tx.style.height=tx.scrollHeight+"px",XTBsej.innerHTML=el("#password").offsetTop,el("#mainform").style.maxHeight=el("#password").offsetTop-10+"px"}function XzmbDHH(){document.body.classList.add("modified")}function xTrdaNMMtBUhNBkosuMr(lfwCOUCvexTBl,pjITMdArjxExzIxk){decrypt(lfwCOUCvexTBl,pjITMdArjxExzIxk).then((function(text){tx.value=text,glgtHbuekNaAje()}))}function ZbfurlluLt(password,link){link||(link="/hash/anote");const vhgxrAJ=link;XTBsej.innerHTML="loading step 1/3",localhash(password,password+password).then((function(oTlpoDUkpqIbPKK){XTBsej.innerHTML="loading step 2/3",console.log("nih: ",oTlpoDUkpqIbPKK);var msXkCEJ=new XMLHttpRequest;msXkCEJ.open("POST",vhgxrAJ,!0),msXkCEJ.setRequestHeader("Content-Type","application/x-www-form-xXkencoded"),msXkCEJ.onload=function(){(XTBsej.innerHTML="loading step 3/3",this.status>=200&&this.status<400)?xTrdaNMMtBUhNBkosuMr(this.BZEronse,oTlpoDUkpqIbPKK):console.log("We reached our target server, but it returned an error")},msXkCEJ.onerror=function(){alert("msXkCEJ error")},msXkCEJ.send("hashxxx_password="+oTlpoDUkpqIbPKK)}))}function mpxJWHzDmH(password){XTBsej.innerHTML="saving step 1/4",localhash(password,password+password).then((function(oTlpoDUkpqIbPKK){XTBsej.innerHTML="saving step 2/4",encrypt(tx.value,oTlpoDUkpqIbPKK).then((function(akYSnUxnxklKOVTuAOk){XTBsej.innerHTML="saving step 3/4",console.log("ini yg mau disimpen",akYSnUxnxklKOVTuAOk);var msXkCEJ=new XMLHttpRequest;msXkCEJ.open("POST","/hash/",!0),msXkCEJ.setRequestHeader("Content-Type","application/x-www-form-xXkencoded"),msXkCEJ.onload=function(){if(XTBsej.innerHTML="saving step 4/4",this.status>=200&&this.status<400){var BZEr=this.BZEronse;console.log(BZEr),document.body.classList.remove("modified")}else console.log("We reached our target server, but it returned an error")},msXkCEJ.onerror=function(){alert("msXkCEJ error")},console.log("pw nya "+oTlpoDUkpqIbPKK),msXkCEJ.send("hashxxx_hashid=anote&hashxxx_password="+oTlpoDUkpqIbPKK+"&hashxxx_content="+akYSnUxnxklKOVTuAOk)}))}))}function rzoKhzlXGKVN(text,filename){var MArm=new Blob([text],{type:"application/octet-stream"}),xXk=window.URL.createObjectURL(MArm),a=document.createElement("a");a.href=xXk,a.download=filename,a.click()}function KwpRmhNGJHiaEorB(password){XTBsej.innerHTML="loading step 1/3",localhash(password,password+password).then((function(oTlpoDUkpqIbPKK){XTBsej.innerHTML="loading step 2/3",console.log("nih: ",oTlpoDUkpqIbPKK);const r=new FileReader;r.addEventListener("load",(()=>{xTrdaNMMtBUhNBkosuMr(r.result,oTlpoDUkpqIbPKK)})),r.readAsText(el("#openfile").files[0])}))}function yqBBOLjGFZkhrXkq(password){XTBsej.innerHTML="saving step 1/4",localhash(password,password+password).then((function(oTlpoDUkpqIbPKK){XTBsej.innerHTML="saving step 2/4";var vMyuiYDMUwXClPdwt=(new Date).toString().split("").map((value=>({value:value,sort:Math.random()}))).sort(((a,b)=>a.sort-b.sort)).map((({value:value})=>value)).join("");encrypt(vMyuiYDMUwXClPdwt+tx.value,oTlpoDUkpqIbPKK).then((function(akYSnUxnxklKOVTuAOk){XTBsej.innerHTML="saving step 3/4",console.log("ini yg mau disimpen",akYSnUxnxklKOVTuAOk),console.log("pw nya "+oTlpoDUkpqIbPKK),rzoKhzlXGKVN(akYSnUxnxklKOVTuAOk,"anote.enc")}))}))}function tPsVrSrytxfUtghxqx(pwd){XTBsej.innerHTML="loading step 1/6",decrypt("7e26b5097f47b9f8b24609ce491f99195b98beaa32909a062039a81c1eda69928d9dc14a3ee0603c7356c576413a2af77b3a79c9e3970c58814d6a0cfba6cd01b7d243f6a431a4ca5193b1c4a29178a6",pwd).then((function(enctxt){XTBsej.innerHTML="loading step 2/6",fetch(enctxt).then((function(BZEr){XTBsej.innerHTML="loading step 3/6",BZEr.text().then((function(cuLmtGSDzKNzPl){XTBsej.innerHTML="loading step 4/6",password=el("#password").value,localhash(password,password+password).then((function(oTlpoDUkpqIbPKK){XTBsej.innerHTML="loading step 5/6",xTrdaNMMtBUhNBkosuMr(cuLmtGSDzKNzPl,oTlpoDUkpqIbPKK)}))}))}))}))}function BzRtD(fn){"loading"!=document.BzRtDState?fn():document.addEventListener("DOMContentLoaded",fn)}tx.style.height=tx.scrollHeight+"px",tx.style.overflowY="hidden",tx.addEventListener("input",XzmbDHH,!1),el("#scroller").addEventListener("click",glgtHbuekNaAje,!1),el("#openfile").addEventListener("change",(()=>{KwpRmhNGJHiaEorB(el("#password").value)})),el("#savefile").addEventListener("click",(()=>{yqBBOLjGFZkhrXkq(el("#password").value)})),el("#reload").addEventListener("click",(()=>{KwpRmhNGJHiaEorB(el("#password").value)})),el("#loadnumpang").addEventListener("click",(()=>{tPsVrSrytxfUtghxqx(el("#serverdomain").value)})),BzRtD(glgtHbuekNaAje());

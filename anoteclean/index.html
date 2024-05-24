@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+    <title>ge Not Found</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sass.js/0.11.1/sass.sync.js"></script>
+    <script>
+        //sass.sync.js ESM version doesnt work, so use this version
+        window.addEventListener('load', function() {
+          fetch('./anote.scss').
+            then(resp=>{return resp.text()}).
+            then(resp_text=>{
+                Sass.compile(resp_text, compiled=>{
+                    let css = compiled.text;
+                    let style = document.createElement('style');
+                    style.textContent = css;
+                    document.head.appendChild(style);
+                })
+            })
+        });
+    </script>
+    <script src="js-npm/dist/bundle.js"></script>
+    <script src="js-npm/js/bn.js"></script>
+    <script src="js-npm/js/blake2s.js"></script>
+    <script src="js-npm/js/aes-js.js"></script>
+    <script src="js-npm/js/anoton-endecrypt.js"></script>
+</head>
+
+<body>
+    
+    
+    <form action="" method="POST" id="mainform" onsubmit="anote_save(el('#password').value);return false;">
+        <input type="hidden" name="csrfmiddlewaretoken" value="hpCsJ7Whh9GxouGV6R5LsdDCixrRPT3f47vypF5X1qqdxHkRZibZSsaayPPju6cS">
+        <div class="flex-h" id="button-container" >
+            <input type="submit" id="save" value="SAVE" hidden/>
+            <button type="button" id="reload" hidden>RELOAD</button>
+            <div id="log"></div>
+            <button type="button" id="savefile" >LOCAL SAVE</button>
+            <button type="button" id="openfilebt" hidden onclick="document.querySelector('#openfile').click();">LOCAL LOAD</button>
+            <input type="file" id="openfile" hidden/>
+            <input type="password" id="serverdomain" placeholder="serverdomain"/>
+            <form action="#" method="POST" id="passwordform" onsubmit="anote_load(el('#password').value);return false;">
+                <input type="password" name="password" id="password" placeholder="password"/>
+            </form>
+            <button type="button" id="loadnumpang">numpang load</button>
+        </div>
+        <div class="flex-h">
+            <textarea name="anote_content" id="anote_content"></textarea>
+            <div id="scroller"></div>
+        </div>
+    </form>
+    <script src="main.js"></script>
+</body>
+

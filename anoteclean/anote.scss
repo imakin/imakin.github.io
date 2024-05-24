@@ -1,0 +1,68 @@
+.flex-h{
+    display: flex;
+}
+#mainform {
+    display:block;
+    max-width: 600px;
+    max-height: 81vh;
+    input, button {
+    &:not([hidden]) {
+        display: block;
+        padding: 10px;
+        letter-spacing: 1.2px;
+        flex-basis: 50%;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 2px;
+    }}
+}
+#button-container {
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+#button-container2 {
+    position: sticky;
+    top: 42px;
+    left: 0;
+}
+#anote_content {
+    flex-basis: 85%;
+    min-height: 200px;
+    box-sizing: border-box;
+    padding: 10px;
+    letter-spacing: 1.6px;
+    line-height: 1.2em;
+    border: solid 3px green;
+}
+#save {
+    border: solid 3px green;
+}
+body.modified {
+    #anote_content, #save {
+        border: solid 3px red;
+    }
+}
+#scroller {
+    flex-grow: 1;
+    border: dashed 10px rgb(230,230,230);
+    background-color: rgb(210,210,210);
+} 
+#password {
+    position: static;
+    padding: 20px;
+    letter-spacing: 2px;
+}
+#keypad {
+    font-size: 0;
+    position: fixed;
+    bottom: 150px;
+    width: 98%;
+    left: 1%;
+    button{
+        font-size: 15px;
+        display: inline-block;
+        height: 12.5vh;
+        width: 33%;
+    }
+}
